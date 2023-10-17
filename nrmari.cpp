@@ -7,16 +7,28 @@ void citesteNumarMare(NrMare, int &);
 void afiseazaNumarMare(NrMare, int);
 void adunaNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 void scadeNumereMari(NrMare, int, NrMare, int, NrMare, int &);
+void inmultesteNumarMareCuNumarMic(NrMare, int, int, NrMare, int &);
 int main()
 {
-	NrMare a, b, s, d;
-	int na, nb, ns, nd;
+	NrMare a, b, s, d, c;
+	int na, nb, ns, nd, nrmic, nc;
+	cout << "a = ";
 	citesteNumarMare(a, na);
+	cout << "b = ";
 	citesteNumarMare(b, nb);
 	adunaNumereMari(a, na, b, nb, s, ns);
+	cout << "a+b = ";
 	afiseazaNumarMare(s, ns);
 	scadeNumereMari(a, na, b, nb, d, nd);
+	cout << "a-b = ";
 	afiseazaNumarMare(d, nd);
+	cout << "nr. mic: "; cin >> nrmic;
+	inmultesteNumarMareCuNumarMic(a, na, nrmic, c, nc);
+	cout << "a * nrmic = ";
+	afiseazaNumarMare(c, nc);
+	inmultesteNumarMareCuNumarMic(b, nb, nrmic, c, nc);
+	cout << "b * nrmic = ";
+	afiseazaNumarMare(c, nc);
 	return 0;
 }
 void citesteNumarMare(NrMare nr, int & nrcif)
@@ -45,7 +57,7 @@ void afiseazaNumarMare(NrMare nr, int nrcif)
 // s = a+b
 void adunaNumereMari(NrMare a, int na, NrMare b, int nb, NrMare s, int & ns)
 {
-	int i, t, cif;
+	int i, t, val;
 	// completeaza numarul cel mai mic cu zerouri nesemnificative
 	if (na < nb)
 	{
@@ -66,9 +78,9 @@ void adunaNumereMari(NrMare a, int na, NrMare b, int nb, NrMare s, int & ns)
 	// aduna cele doua numere si retine rezultatul in s si ns
 	for (t = i = 0; i < ns; i++)
 	{
-		cif = a[i]+b[i]+t;
-		s[i] = cif%10;
-		t = cif/10;
+		val = a[i]+b[i]+t;
+		s[i] = val%10;
+		t = val/10;
 	}
 	if (t)
 	{
@@ -78,25 +90,46 @@ void adunaNumereMari(NrMare a, int na, NrMare b, int nb, NrMare s, int & ns)
 // d = a-b
 void scadeNumereMari(NrMare a, int na, NrMare b, int nb, NrMare d, int & nd)
 {
-	int i, t, cif;
+	int i, t, val;
 	for (i = nb; i < na; i++)
 	{
 		b[i] = 0;
 	}
 	for (t = i = 0; i < na; i++)
 	{
-		cif = a[i]-b[i]+t;
-		if (cif < 0)
+		val = a[i]-b[i]+t;
+		if (val < 0)
 		{
-			d[i] = cif+10;
+			d[i] = val+10;
 			t = -1;
 		}
 		else
 		{
-			d[i] = cif;
+			d[i] = val;
 			t = 0;
 		}
 	}
 	// ignor zerourile nesemnificative si actualizez nr. de cifre al lui d
 	for (nd = na; nd > 1 && d[nd-1] == 0; nd--);
+}
+void inmultesteNumarMareCuNumarMic(NrMare a, int na, int b, NrMare c, int & nc)
+{
+	int i, val, t;
+	if (b == 0 || (a[0] == 0 && na == 1))
+	{
+		c[0] = 0;
+		nc = 1;
+		return;
+	}
+	for (t = i = 0; i < na; i++)
+	{
+		val = a[i]*b+t;
+		c[i] = val%10;
+		t = val/10;
+	}
+	for (nc = na; t; nc++)
+	{
+		c[nc] = t%10;
+		t /= 10;
+	}
 }
