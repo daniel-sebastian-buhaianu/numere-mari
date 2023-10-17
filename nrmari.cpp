@@ -9,10 +9,11 @@ void adunaNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 void scadeNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 void inmultesteNumarMareCuNumarMic(NrMare, int, int, NrMare, int &);
 void inmultesteNumereMari(NrMare, int, NrMare, int, NrMare, int &);
+int comparaNumereMari(NrMare, int, NrMare, int);
 int main()
 {
 	NrMare a, b, s, d, c;
-	int na, nb, ns, nd, nrmic, nc;
+	int na, nb, ns, nd, nc, k;
 	cout << "a = ";
 	citesteNumarMare(a, na);
 	cout << "b = ";
@@ -20,15 +21,23 @@ int main()
 	adunaNumereMari(a, na, b, nb, s, ns);
 	cout << "a+b = ";
 	afiseazaNumarMare(s, ns);
-	scadeNumereMari(a, na, b, nb, d, nd);
-	cout << "a-b = ";
+	if (comparaNumereMari(a, na, b, nb) < 0)
+	{
+		cout << "a < b, nu pot efectua scaderea\n";
+		cout << "b-a = ";
+		scadeNumereMari(b, nb, a, na, d, nd);
+	}
+	else
+	{
+		cout << "a-b = ";
+	}
 	afiseazaNumarMare(d, nd);
-	cout << "nr. mic: "; cin >> nrmic;
-	inmultesteNumarMareCuNumarMic(a, na, nrmic, c, nc);
-	cout << "a*nrmic = ";
+	cout << "k = "; cin >> k;
+	inmultesteNumarMareCuNumarMic(a, na, k, c, nc);
+	cout << "a*k = ";
 	afiseazaNumarMare(c, nc);
-	inmultesteNumarMareCuNumarMic(b, nb, nrmic, c, nc);
-	cout << "b*nrmic = ";
+	inmultesteNumarMareCuNumarMic(b, nb, k, c, nc);
+	cout << "b*k = ";
 	afiseazaNumarMare(c, nc);
 	inmultesteNumereMari(a, na, b, nb, c, nc);
 	cout << "a*b = ";
@@ -169,4 +178,31 @@ void inmultesteNumereMari(NrMare a, int na, NrMare b, int nb, NrMare p, int & np
 	{
 		np++;
 	}
+}
+// compara doua numere mari
+// returneaza -1, 0 sau 1
+// -1, a < b
+// 0, a == b
+// 1, a > b
+int comparaNumereMari(NrMare a, int na, NrMare b, int nb)
+{
+	int i;
+	if (na < nb)
+	{
+		return -1;
+	}
+	if (na > nb)
+	{
+		return 1;
+	}
+	for (i = na-1; i >= 0 && a[i] == b[i]; i--);
+	if (i < 0)
+	{
+		return 0;
+	}
+	if (a[i] < b[i])
+	{
+		return -1;
+	}
+	return 1;
 }
