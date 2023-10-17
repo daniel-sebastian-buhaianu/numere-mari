@@ -10,10 +10,12 @@ void scadeNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 void inmultesteNumarMareCuNumarMic(NrMare, int, int, NrMare, int &);
 void inmultesteNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 int comparaNumereMari(NrMare, int, NrMare, int);
+void inmultesteNumarMareCu10LaPutereaP(NrMare, int &, int);
+void imparteNumarMareLaNumarMic(NrMare, int, int, NrMare, int &, int &);
 int main()
 {
 	NrMare a, b, s, d, c;
-	int na, nb, ns, nd, nc, k;
+	int na, nb, ns, nd, nc, k, r;
 	cout << "a = ";
 	citesteNumarMare(a, na);
 	cout << "b = ";
@@ -42,6 +44,16 @@ int main()
 	inmultesteNumereMari(a, na, b, nb, c, nc);
 	cout << "a*b = ";
 	afiseazaNumarMare(c, nc);
+	cout << "a*10^k = ";
+	inmultesteNumarMareCu10LaPutereaP(a, na, k);
+	afiseazaNumarMare(a, na);
+	cout << "a = ";
+	afiseazaNumarMare(a, na);
+	cout << "k = "; cin >> k;
+	imparteNumarMareLaNumarMic(a, na, k, c, nc, r);
+	cout << "a/k = ";
+	afiseazaNumarMare(c, nc);
+	cout << "a%k = " << r << '\n';
 	return 0;
 }
 void citesteNumarMare(NrMare nr, int & nrcif)
@@ -205,4 +217,48 @@ int comparaNumereMari(NrMare a, int na, NrMare b, int nb)
 		return -1;
 	}
 	return 1;
+}
+void inmultesteNumarMareCu10LaPutereaP(NrMare x, int & nx, int p)
+{
+	int i;
+	if (nx == 1 && x[0] == 0)
+	{
+		return;
+	}
+	if (nx+p > NRMAX_CIFRE)
+	{
+		cout << "Eroare: Produsul inmultirii depaseste numarul maxim de cifre alocat pentru un numar mare\n";
+		return;
+	}
+	for (i = nx-1; i >= 0; i--)
+	{
+		x[i+p] = x[i];
+	}
+	for (i = 0; i < p; i++)
+	{
+		x[i] = 0;
+	}
+	nx += p;
+}
+void imparteNumarMareLaNumarMic(NrMare a, int na, int b, NrMare c, int & nc, int & r)
+{
+	int i, val;
+	if (b == 0)
+	{
+		cout << "Eroare: Nu pot imparti numar mare la 0\n";
+		return;
+	}
+	if (a[0] == 0 && na == 1)
+	{
+		r = c[0] = 0;
+		nc = 1;
+		return;
+	}
+	for (r = 0, i = na-1; i >= 0; i--)
+	{
+		val = r*10 + a[i];
+		c[i] = val/b;
+		r = val%b;
+	}
+	for (nc = na; nc > 1 && c[nc-1] == 0; nc--);
 }
