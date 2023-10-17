@@ -8,6 +8,7 @@ void afiseazaNumarMare(NrMare, int);
 void adunaNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 void scadeNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 void inmultesteNumarMareCuNumarMic(NrMare, int, int, NrMare, int &);
+void inmultesteNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 int main()
 {
 	NrMare a, b, s, d, c;
@@ -24,10 +25,13 @@ int main()
 	afiseazaNumarMare(d, nd);
 	cout << "nr. mic: "; cin >> nrmic;
 	inmultesteNumarMareCuNumarMic(a, na, nrmic, c, nc);
-	cout << "a * nrmic = ";
+	cout << "a*nrmic = ";
 	afiseazaNumarMare(c, nc);
 	inmultesteNumarMareCuNumarMic(b, nb, nrmic, c, nc);
-	cout << "b * nrmic = ";
+	cout << "b*nrmic = ";
+	afiseazaNumarMare(c, nc);
+	inmultesteNumereMari(a, na, b, nb, c, nc);
+	cout << "a*b = ";
 	afiseazaNumarMare(c, nc);
 	return 0;
 }
@@ -131,5 +135,38 @@ void inmultesteNumarMareCuNumarMic(NrMare a, int na, int b, NrMare c, int & nc)
 	{
 		c[nc] = t%10;
 		t /= 10;
+	}
+}
+void inmultesteNumereMari(NrMare a, int na, NrMare b, int nb, NrMare p, int & np)
+{
+	int i, t, j, val;
+	if (b[0] == 0 && nb == 1
+		|| a[0] == 0 && na == 1)
+	{
+		p[0] = 0;
+		np = 1;
+		return;
+	}
+	for (i = 0; i < NRMAX_CIFRE; i++)
+	{
+		p[i] = 0;
+	}
+	for (i = 0; i < nb; i++)
+	{
+		for (t = j = 0; j < na; j++)
+		{
+			val = p[i+j] + b[i]*a[j] + t;
+			p[i+j] = val%10;
+			t = val/10;
+		}
+		if (t)
+		{
+			p[i+j] = t;
+		}
+	}
+	np = na+nb-1;
+	if (p[np])
+	{
+		np++;
 	}
 }
