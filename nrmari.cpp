@@ -6,14 +6,17 @@ typedef char NrMare[NRMAX_CIFRE];
 void citesteNumarMare(NrMare, int &);
 void afiseazaNumarMare(NrMare, int);
 void adunaNumereMari(NrMare, int, NrMare, int, NrMare, int &);
+void scadeNumereMari(NrMare, int, NrMare, int, NrMare, int &);
 int main()
 {
-	NrMare a, b, s;
-	int na, nb, ns;
+	NrMare a, b, s, d;
+	int na, nb, ns, nd;
 	citesteNumarMare(a, na);
 	citesteNumarMare(b, nb);
 	adunaNumereMari(a, na, b, nb, s, ns);
 	afiseazaNumarMare(s, ns);
+	scadeNumereMari(a, na, b, nb, d, nd);
+	afiseazaNumarMare(d, nd);
 	return 0;
 }
 void citesteNumarMare(NrMare nr, int & nrcif)
@@ -39,6 +42,7 @@ void afiseazaNumarMare(NrMare nr, int nrcif)
 	}
 	cout << '\n';
 }
+// s = a+b
 void adunaNumereMari(NrMare a, int na, NrMare b, int nb, NrMare s, int & ns)
 {
 	int i, t, cif;
@@ -70,4 +74,29 @@ void adunaNumereMari(NrMare a, int na, NrMare b, int nb, NrMare s, int & ns)
 	{
 		s[ns++] = t;
 	}
+}
+// d = a-b
+void scadeNumereMari(NrMare a, int na, NrMare b, int nb, NrMare d, int & nd)
+{
+	int i, t, cif;
+	for (i = nb; i < na; i++)
+	{
+		b[i] = 0;
+	}
+	for (t = i = 0; i < na; i++)
+	{
+		cif = a[i]-b[i]+t;
+		if (cif < 0)
+		{
+			d[i] = cif+10;
+			t = -1;
+		}
+		else
+		{
+			d[i] = cif;
+			t = 0;
+		}
+	}
+	// ignor zerourile nesemnificative si actualizez nr. de cifre al lui d
+	for (nd = na; nd > 1 && d[nd-1] == 0; nd--);
 }
